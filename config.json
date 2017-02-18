@@ -1,0 +1,19 @@
+{
+	"language": "english",
+    
+	"stocks": 
+	{"APPL" : "Apple Inc.",
+	 "SINA" : "SINA Corporation",
+	 "GE" : "General Electric Company",
+	 "GOOG" : "Alphabet Inc."},
+   
+	"username": "abc",
+    
+	"database": {
+		"hostname" : "127.0.0.1" ,
+		"username" : "root",
+		"password" : "19921008fwb",
+		"database" : "stock"
+	}
+}
+

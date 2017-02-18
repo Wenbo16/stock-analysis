@@ -1,0 +1,30 @@
+{
+  "name": "stock-prediction",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+	
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Wenbo16/stock-prediction.git"
+  },
+	
+  "author": "Wenbo Feng",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Wenbo16/stock-prediction/issues"
+  },
+	
+  "homepage": "https://github.com/Wenbo16/stock-prediction#readme",
+  "dependencies": {
+    "colors": "^1.1.2",
+    "express": "^4.14.0",
+    "knex": "^0.12.6",
+    "mysql2": "^1.1.1",
+    "pug": "^2.0.0-beta5",
+    "yahoo-finance": "^0.2.14"
+  }
+}
