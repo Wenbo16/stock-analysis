@@ -1,0 +1,19 @@
+html
+	head
+		title= title[language]
+	body
+		h1 SPS - stock prediction system
+		h2=username
+		h3=language
+		#container.col
+			if youAreUsingJade
+				p This is a simple project to build a stock prediction application
+			else
+				p Welcome to my SPS website.
+				each val, key in stocks
+					a(href='/'+key) #{key}
+					= '\n'
+		input(
+			type= 'text'
+			name= 'Stock symbol'
+		)
