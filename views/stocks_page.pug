@@ -1,0 +1,29 @@
+html
+	head
+		title= title[language]
+		style
+			include ./css/style.css
+	body
+		div(id="wrapper")
+			div(class="page-header")
+				h2 All Stocks
+				
+				
+			div(class='page-data')
+				div(class='data-btn')
+					button(type='button') + Add
+				div(class='data-table')
+					table(border="1" cellpadding="7" cellspacing="7")
+						tr
+							th ID
+							th(width="200px") Symbol
+							th Name
+							th(width="150px") Action
+						each stock in stocks
+							tr
+								td #{stock.id}
+								td #{stock.symbol}
+								td #{stock.name}
+								td
+									a(class="a-inside edit"  href= '/stock_list/edit/' + stock.symbol) Edit
+									a(class="a-inside delete"  href= '/stock_list/delete/' + stock.symbol) Delete

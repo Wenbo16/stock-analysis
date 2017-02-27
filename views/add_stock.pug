@@ -1,0 +1,27 @@
+html
+	head
+		title Add New Stock Symbol
+		style
+			include ./css/style.css
+	body
+		div(id="wrapper")
+			div(class="page-header")
+				h2 Add New Stock Symbol
+			div(class="page-container")
+			
+				div(class='page-data')
+					form(method="post" action="/stock_list/add")
+						table(cellpadding="11")
+							tr
+								td(class="label") Symbol : 
+								td
+									input(type="text" name="symbol" required)
+							tr
+								td(class="label") Name : 
+								td
+									input(type="text" name="name" required)
+							tr
+								td(class="label")
+								td
+									input(type="submit" name="submit" value="Save")
+									input(type="button" name="cancel" value="Cancel" class="cancel" onClick="cancelAdd()")
