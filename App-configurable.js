@@ -5,6 +5,7 @@ var app = express();
 var config = require("./config.json");
 var yahooFinance = require('yahoo-finance');
 var util = require('util');
+var bodyParser = require('body-parser');
 
 require('colors');
 var Promise = require("bluebird");
@@ -23,7 +24,7 @@ app.use(function(req, res, next ){
 	next();
 });
 
-
+app.use(bodyParser.urlencoded()) 
 
 app.get('/', function (req, res) {
 	return Promise.try(() => {
@@ -71,12 +72,18 @@ app.get('/stock_list/delete/:symbol', function(req, res) {
 
 // Add a stock
 app.get('/stock_list/add', function(req, res) {
+	res.render('add_stock', {title : {english: 'Add Stocks', chinese: '添加股票'}});
+});
+
+
+app.post('/stock_list/add', function(req, res) {
 	return Promise.try(() => {
-		return knex.table('symbols').first('symbol')
+		knex('symbols').insert({symbol: req.body.symbol, name:req.body.name})
 	}).then(function(entries){
-		res.render('add_stock', {title : {english: 'Add Stocks', chinese: '添加股票'}});
+		res.redirect('/stock_list');
 	});
 });
+
 
 
 
