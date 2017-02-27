@@ -41,7 +41,7 @@ app.get('/:symbol', function(req, res) {
 		});
 	}).then(function(quotes){
 			res.render( 'SymbolPage', { title: req.params.symbol, symbol: req.params.symbol, 
-										   name : config.stocks[req.params.symbol], data:quotes}); 
+									   name : config.stocks[req.params.symbol], data:quotes}); 
 	});
 });
 
@@ -60,7 +60,7 @@ app.route('/algorithm')
 		res.send('Get a random algorithm');
 	})
 	.post(function(req, res) {
-        res.send('Add a algorithm');
+		res.send('Add a algorithm');
 	})
 	.put(function(req, res) {
 		res.send('Update the algorithm');

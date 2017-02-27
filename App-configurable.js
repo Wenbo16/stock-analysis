@@ -27,38 +27,57 @@ app.use(function(req, res, next ){
 
 app.get('/', function (req, res) {
 	return Promise.try(() => {
-    	return knex.table('symbols').first('symbol');
+		return knex.table('symbols').first('symbol');
 	}).then(function(SYMBOL) {
-		return yahooFinance.historical({
-			symbol: SYMBOL.symbol,
-			from: '2012-01-01',
-			to: '2012-01-15',
-			period: 'd'              
+		return Promise.try( function() {
+			return yahooFinance.historical({
+				symbol: SYMBOL.symbol,
+				from: '2012-01-01',
+				to: '2012-01-15',
+				period: 'd' 
+			});            
 		}).then(function(quotes){
-			for (quote in quotes){
-				knex(SYMBOL.symbol).insert(quotes[quote])
-			}
-			res.render( 'MainPage', { title: {english: 'Stock Prediction', chinese: '股票预测'}, stocks:config.stocks,
-									 data:quotes}); 
+//			for (quote in quotes){
+//				knex(SYMBOL.symbol).insert(quotes[quote])
+//			}
+			res.render( 'home_page', { title: {english: 'Stock Prediction', chinese: '股票预测'},
+									 stocks:config.stocks,data:quotes}); 
 		});
 	});
 });
 
 
-
-app.get('/'+stock, function(req, res) {
+// Get the list of all the stocks
+app.get('/stock_list', function(req, res) {
 	return Promise.try(() => {
-		return yahooFinance.historical({
-			symbol: stock,
-			from: '2012-01-01',
-			to: '2012-01-15',
-			period: 'd'  
-		});
-	}).then(function(quotes){
-			res.render( 'SymbolPage', { title: {english: 'APPL', chinese: '苹果公司'}, symbol:stock, 
-									   name:>> , data:quotes}); 
+		return knex.select().from('symbols')
+	}).then(function(entries){
+		res.render('stocks_page', {title : {english: 'Stocks Lists', chinese: '股票列表'}, stocks : entries});
 	});
 });
+
+
+
+// Delete a stock
+app.get('/stock_list/delete/:symbol', function(req, res) {
+	return Promise.try(() => {
+		return knex('symbols').where('symbol', req.params.symbol).del()
+	}).then(function(entries){
+		res.redirect('/stock_list');
+	});
+});
+
+
+
+// Add a stock
+app.get('/stock_list/add', function(req, res) {
+	return Promise.try(() => {
+		return knex.table('symbols').first('symbol')
+	}).then(function(entries){
+		res.render('add_stock', {title : {english: 'Add Stocks', chinese: '添加股票'}});
+	});
+});
+
 
 
 app.get('/users/:userId', function(req, res, next ){
@@ -69,12 +88,13 @@ app.get('/users/:userId', function(req, res, next ){
 });
 
 
+
 app.route('/algorithm')
 	.get(function(req, res) {
 		res.send('Get a random algorithm');
 	})
 	.post(function(req, res) {
-        res.send('Add a algorithm');
+		res.send('Add a algorithm');
 	})
 	.put(function(req, res) {
 		res.send('Update the algorithm');
