@@ -1,0 +1,8 @@
+body{
+	background-image: url("/images/background.jpg");
+    font: Lucida Sans, Verdana;
+    margin: 20px;
+    line-height: 26px;
+	font-weight: 300;
+	min-height: 800px;
+}
