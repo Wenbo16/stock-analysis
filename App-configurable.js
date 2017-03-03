@@ -24,7 +24,6 @@ app.use(function(req, res, next ){
 	next();
 });
 
-app.use(bodyParser.urlencoded()) ;
 
 app.get('/', function (req, res) {
 	return Promise.try(() => {
@@ -59,9 +58,6 @@ app.get('/:symbol', function (req, res) {
 			period: 'd' 
 		});            
 	}).then(function(quotes){
-//		for (quote in quotes){
-//			knex(SYMBOL.symbol).insert(quotes[quote])
-//		}
 		res.render( 'home_page', { title: {english: 'Stock Prediction', chinese: '股票预测'},
 								 stocks:config.stocks, data:quotes, symbol:req.params.symbol}); 
 	});
@@ -157,3 +153,8 @@ app.route('/algorithm')
 app.listen(3000, function () {
 	console.log('Example app listening on port 3000!');
 });
+
+
+
+
+
