@@ -2,6 +2,8 @@
 
 var express = require('express');
 var app = express();
+app.use('/static', express.static('static'));
+
 var config = require("./config.json");
 var yahooFinance = require('yahoo-finance');
 var util = require('util');
