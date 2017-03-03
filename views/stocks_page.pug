@@ -3,6 +3,8 @@ html
 		title= title[language]
 		style
 			include ./css/style.css
+		script
+			include ../js/PublicJS.js
 	body
 		div(id="wrapper")
 			div(class="page-header")
@@ -11,19 +13,22 @@ html
 				
 			div(class='page-data')
 				div(class='data-btn')
-					button(type='button') + Add
+					button(type='button' onClick="addStock()") + Add
 				div(class='data-table')
 					table(border="1" cellpadding="7" cellspacing="7")
 						tr
-							th ID
-							th(width="200px") Symbol
+							th(width="100px") ID
+							th(width="270px") Symbol
 							th Name
-							th(width="150px") Action
+							th(width="120px") Action
 						each stock in stocks
 							tr
 								td #{stock.id}
 								td #{stock.symbol}
 								td #{stock.name}
 								td
-									a(class="a-inside edit"  href= '/stock_list/edit/' + stock.symbol) Edit
-									a(class="a-inside delete"  href= '/stock_list/delete/' + stock.symbol) Delete
+									form(method="add" action='/stock_list/edit/' + stock.symbol)
+										input(class="edit" type="submit" name="submit" value="Edit")
+									form(method="post" action='/stock_list/delete/' + stock.symbol)
+										input(class="delete" type="submit" name="submit" value="Delete")
+									

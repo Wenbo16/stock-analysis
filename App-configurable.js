@@ -24,7 +24,7 @@ app.use(function(req, res, next ){
 	next();
 });
 
-app.use(bodyParser.urlencoded()) 
+app.use(bodyParser.urlencoded()) ;
 
 app.get('/', function (req, res) {
 	return Promise.try(() => {
@@ -48,6 +48,27 @@ app.get('/', function (req, res) {
 });
 
 
+
+// Get the data and statistics of a single stock
+app.get('/:symbol', function (req, res) {
+	return Promise.try( function() {
+		return yahooFinance.historical({
+			symbol: req.params.symbol,
+			from: '2012-01-01',
+			to: '2012-01-15',
+			period: 'd' 
+		});            
+	}).then(function(quotes){
+//		for (quote in quotes){
+//			knex(SYMBOL.symbol).insert(quotes[quote])
+//		}
+		res.render( 'home_page', { title: {english: 'Stock Prediction', chinese: '股票预测'},
+								 stocks:config.stocks, data:quotes, symbol:req.params.symbol}); 
+	});
+});
+
+
+
 // Get the list of all the stocks
 app.get('/stock_list', function(req, res) {
 	return Promise.try(() => {
@@ -59,12 +80,36 @@ app.get('/stock_list', function(req, res) {
 
 
 
+
+
+
 // Delete a stock
-app.get('/stock_list/delete/:symbol', function(req, res) {
+//app.get('/stock_list/delete/:symbol', function(req, res) {});
+
+app.post('/stock_list/delete/:symbol', function(req, res) {
 	return Promise.try(() => {
 		return knex('symbols').where('symbol', req.params.symbol).del()
-	}).then(function(entries){
+	}).then(function(){
 		res.redirect('/stock_list');
+	});
+});
+
+
+
+// Edit a stock
+app.get('/stock_list/edit/:symbol', function(req, res) {
+	res.render('edit_stock', {title : {english: 'Edit Stocks', chinese: '更新股票'}, symbol:req.params.symbol});
+});
+
+
+app.post('/stock_list/edit/:symbol', function(req, res) {
+	return Promise.try(() => {
+		return knex('symbols').where('symbol', req.params.symbol).update({symbol: req.body.symbol, 
+																		 name:req.body.name});
+	}).then(function(){
+		res.redirect('/stock_list');
+	}).catch((err) => { 
+		console.error("ERROR", err); 
 	});
 });
 
@@ -72,15 +117,17 @@ app.get('/stock_list/delete/:symbol', function(req, res) {
 
 // Add a stock
 app.get('/stock_list/add', function(req, res) {
-	res.render('add_stock', {title : {english: 'Add Stocks', chinese: '添加股票'}});
+	res.render('add_stock', {title : {english: 'Add New Stock Symbol', chinese: '添加股票'}});
 });
 
 
 app.post('/stock_list/add', function(req, res) {
 	return Promise.try(() => {
-		knex('symbols').insert({symbol: req.body.symbol, name:req.body.name})
-	}).then(function(entries){
+		return knex('symbols').insert({symbol: req.body.symbol, name:req.body.name})
+	}).then(function(){
 		res.redirect('/stock_list');
+	}).catch((err) => { 
+		console.error("ERROR", err); 
 	});
 });
 

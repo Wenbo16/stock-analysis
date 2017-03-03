@@ -4,17 +4,23 @@ html
 		style
 			include ./css/homepage.css
 	body
-	div(class="container wrapper")
-		div(id="top")
-			h1 Welcome to Stock Digger
-			p This is a wep application for stock forecasting
-		h3=language
-		div(class="wrapper")
-			div(id="menubar")
-				ul(id="menulist")
-					li(class="menuitem") Search
-					li(class="menuitem") Suggest
-					li(class="menuitem") Track
+		div(class="container wrapper")
+			div(id="top")
+				h1 Welcome to Stock Digger
+				p This is a wep application for stock forecasting
+			h3=language
+			div(class="wrapper")
+				div(id="menubar")
+					ul(id="menulist")
+						li(class="menuitem") Search
+						li(class="menuitem") Suggest
+						li(class="menuitem") Track
 			
-				
-		
+		div(id="container")
+			div(id="bars_container")
+			div(id="search")
+				form(action="/" + symbol method="get")
+					div(id="searchbar")
+						input(type="text" value="Search" id="keyword" class="input_search" name="q")
+					input(type="submit" id="button_search" class="button button_search" name="search")
+					input(type="submit" id="button_suggest" class="button button_search" name="suggest")
