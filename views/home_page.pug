@@ -1,59 +1,29 @@
-//<?php if(!isset($_SESSION['sess_ID']))
-//				 echo '<a id="link_login" class="button" href="#">Login</a><a href="register.php" class="button buttonGray">Register</a>';
-//				 else {
-//				 	echo "<input type='button' class='welcome' value='Hey there, ".$_SESSION['sess_FirstName']."'</input><a href='./logout.php' class='button buttonGray'>Logout</a>";
-//				 	echo "<ul class='dropdown'>";
-//				 	if ($_SESSION['sess_Level'] == 2) 
-//				 		echo "<li><a href='admin.php'>Administartive Settings</a></li>";
-//				 	echo "<li><a href='admin.php'>Account Settings</a></li>";
-//				 	echo "<li><a href='trackedstocks.php'>Tracked Stocks</a></li>";
-//				 	echo "</ul>";
-//				 }
-//				?>
+extends layout
+block content
+	div(id="container")
+		div(id="image")
+			div(id="image_search" class="banner")
+				div(class="text")
+					Search for predictions of varying stocks! We are always keeping track of your searches so if a stock of interest isnt being tracked by our system, it just might be in the near future.
+			img(id="dot1" class="dot animatedBounceIn" style="margin-left: 150px" src="images/image_dot.png")
+			img(id="dot2" class="dot animatedBounceIn" src="images/image_dot.png")
+			img(id="dot3" class="dot animatedBounceIn" src="images/image_dot.png")
 
+			div(id="image_suggest" class="banner")
+				div(class="text")
+					Get suggestions on what stocks might be right for you. Our system will calculate and display the stocks with the highest predicted gain.
+			img(id="dot4" class="dot animatedBounceIn" style="margin-left: 140px" src="images/image_dot.png")
+			img(id="dot5" class="dot animatedBounceIn" src="images/image_dot.png")
+			img(id="dot6" class="dot animatedBounceIn" src="images/image_dot.png")
 
+			div(id="image_track" class="banner")
+				div(class="text")
+					Own or have a stock of interest? With a StockHawk account you can track and get alerts for all stocks within your "watch list"
 
-html
-	head
-		title= title[language]
-		link(rel="stylesheet", href="/css/main.css")
-		link(rel="stylesheet", href="/css/splashscreen.css")
-	body
-		div(id="header")
-			h1 Welcome to Stock Digger
-			p(id="sub") This is a wep application for stock forecasting
-			h3(id="sub")=language
-			
-			div(id="menu")
-				a(href="/login" id="auth" class="button" ) Log In
-				a(href="/sign_up" id="auth" class="button buttonGray") Sign Up
-			
-			
-		div(id="container")
-			div(id="image")
-			
-				div(id="image_search" class="banner")
-					div(class="text")
-						Search for predictions of varying stocks! We are always keeping track of your searches so if a stock of interest isnt being tracked by our system, it just might be in the near future.
-				img(id="dot1" class="dot animatedBounceIn" style="margin-left: 150px" src="images/image_dot.png")
-				img(id="dot2" class="dot animatedBounceIn" src="images/image_dot.png")
-				img(id="dot3" class="dot animatedBounceIn" src="images/image_dot.png")
-				
-				div(id="image_suggest" class="banner")
-					div(class="text")
-						Get suggestions on what stocks might be right for you. Our system will calculate and display the stocks with the highest predicted gain.
-				img(id="dot4" class="dot animatedBounceIn" style="margin-left: 140px" src="images/image_dot.png")
-				img(id="dot5" class="dot animatedBounceIn" src="images/image_dot.png")
-				img(id="dot6" class="dot animatedBounceIn" src="images/image_dot.png")
-				
-				div(id="image_track" class="banner")
-					div(class="text")
-						Own or have a stock of interest? With a StockHawk account you can track and get alerts for all stocks within your "watch list"
-		
-			div(id="bars_container")
-			div(id="search")
-				form(action="/" + symbol method="get")
-					div(id="searchbar")
-						input(type="text" value="Search" id="keyword" class="input_search" name="q")
-					input(type="submit" id="button_search" class="button button_search" name="search")
-					input(type="submit" id="button_suggest" class="button button_search" name="suggest")
+		div(id="bars_container")
+		div(id="search")
+			form(action="/" + symbol method="get")
+				div(id="searchbar")
+					input(type="text" value="Search" id="keyword" class="input_search" name="q")
+				input(type="submit" id="button_search" class="button button_search" name="search")
+				input(type="submit" id="button_suggest" class="button button_search" name="suggest")

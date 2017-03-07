@@ -1,0 +1,17 @@
+html
+	head
+		title= title[language]
+		link(rel="stylesheet", href="/css/main.css")
+		link(rel="stylesheet", href="/css/splashscreen.css")
+	body
+		div(id="header")
+			h1 Welcome to Stock Digger
+			p(id="sub") This is a wep application for stock forecasting
+			h3(id="sub")=language
+			
+			div(id="menu")
+				a(href="/login" id="auth" class="button" ) Log In
+				a(href="/sign_up" id="auth" class="button buttonGray") Sign Up
+			
+			
+		block content
