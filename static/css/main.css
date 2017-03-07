@@ -1,11 +1,9 @@
-/*
 .animated, .animatedBounceIn, .animatedBounceInUp,  .animatedBounceInRight, .animated{
   -webkit-animation-duration: 1s;
   animation-duration: 1s;
   -webkit-animation-fill-mode: both;
   animation-fill-mode: both;
 }
-*/
 
 @-webkit-keyframes bounceIn {
   0% {
@@ -175,19 +173,18 @@
   }
 }
 
-/*
 .bounceInUp {
   -webkit-animation-name: bounceInUp;
   animation-name: bounceInUp;
 }
-*/
 
 html {
+	background-color: #101C32;
 	height: auto;
 }
 
 body {
-	background: url("../../images/background.jpg") #101C32 top center no-repeat;
+	background: url("/images/background.jpg") #101C32 top center no-repeat;
 	font-family: roboto;
 	font-weight: 300;
 	font-size: 15px;
@@ -195,9 +192,8 @@ body {
 	min-height: 800px;
 }
 
-textarea
-{
-resize: none;
+textarea{
+	resize: none;
 }
 
 input {
@@ -218,47 +214,62 @@ select:focus, input:focus, div:focus {
 }
 
 select {
-padding: 3px 5px;
-display: block;
-font-family: roboto;
--webkit-appearance: none;
-border-radius: 0px;
-border: 1px solid #ccc;
-background: #ececec;
-font-weight: 300;
-float: left;
+	padding: 3px 5px;
+	display: block;
+	font-family: roboto;
+	-webkit-appearance: none;
+	border-radius: 0px;
+	border: 1px solid #ccc;
+	background: #ececec;
+	font-weight: 300;
+	float: left;
 }
 
 
 #menu a, #menu a:visited, #menu input {
-margin-right: 10px;
-color: #fff;
-font-size: 13px;
-padding: 5px 10px;
-text-decoration: none;
-font-family: roboto;
-font-weight: 300;
+	margin-right: 10px;
+	color: #fff;
+	font-size: 13px;
+	padding: 5px 10px;
+	text-decoration: none;
+	font-family: roboto;
+	font-weight: 300;
 }
 
-#container 
-{
+#container  {
 	width: 1000px;
 	margin: 0 auto;
 }
 
-#header
-{
+
+
+#header{
+    margin-top: 4px;
+	margin-left: 26px;
+	color: #fff;
+    padding: 9px;
 	width: 1000px;
-	margin: 0 auto;
 	position: relative;
 	margin-bottom:50px;
 }
 
+#sub {
+	margin-left: 17px;
+}
+
+#id="auth"{
+	border-radius:4px;
+}
+
 #menu {
-position: absolute;
-top: 10px;
-right: 0;
-color: #E26D26;
+    margin: 8px;
+	color: #fff;
+	padding-top: 15px;
+	margin-left: 500px;
+	position: absolute;
+	top: 10px;
+	right: 0;
+	color: #E26D26;
 }
 
 #menu .dropdown {
@@ -285,9 +296,9 @@ color: #E26D26;
 }
 
 .input_login {
-font-size: 16px;
-margin-bottom: 15px;
-width: 185px;
+	font-size: 16px;
+	margin-bottom: 15px;
+	width: 185px;
 }
 
 .login .ui-dialog-buttonpane, .login button {
@@ -301,31 +312,31 @@ padding: 7px;
 
 .downarrow {
 	height: 0;
-width: 0;
-border: 4px solid transparent;
-border-top-color: #101C32;
-float: right;
-margin-top: -15px;
-margin-right: 15px;
+	width: 0;
+	border: 4px solid transparent;
+	border-top-color: #101C32;
+	float: right;
+	margin-top: -15px;
+	margin-right: 15px;
 }
 
 .button, .button:active, .button:focus, input[type=button], button{
-font-family: roboto;
-background-color: #E26D26;
-border: none;
-display: block;
-border: none;
-display: block;
-color: #fff;
-font-weight: 300;
-cursor: pointer;
-float: left;
-transition-property: background-color;
-transition-duration: 0.15s;
+	font-family: roboto;
+	background-color: #E26D26;
+	border: none;
+	display: block;
+	border: none;
+	display: block;
+	color: #fff;
+	font-weight: 300;
+	cursor: pointer;
+	float: left;
+	transition-property: background-color;
+	transition-duration: 0.15s;
 }
 
 .button:hover, input[type=button]:hover, button:hover {
-background-color: #ff8c49;
+	background-color: #ff8c49;
 }
 
 .buttonGray, .buttonGray:active, .buttonGray:focus, button.buttonGray, input[type=button].buttonGray {
@@ -368,7 +379,7 @@ background-color: #ff8c49;
 {
 	outline: none;
 	width: 570px;
-	height: 23px;
+	height: 47px;
 	padding: 10px;
 	font-size: 16px;
 	font-family: 'Roboto', arial, sans-serif;
@@ -390,11 +401,11 @@ background-color: #ff8c49;
 	background: #fff;
 	padding: 0;
 	-webkit-box-shadow: 0px 10px 10px -5px rgba(0,0,0,0.75);
--moz-box-shadow: 0px 10px 10px -5px rgba(0,0,0,0.75);
-box-shadow: 0px 10px 10px -5px rgba(0,0,0,0.75);
-max-height: 200px;
-max-width: 594px;
-overflow: auto;
+	-moz-box-shadow: 0px 10px 10px -5px rgba(0,0,0,0.75);
+	box-shadow: 0px 10px 10px -5px rgba(0,0,0,0.75);
+	max-height: 200px;
+	max-width: 594px;
+	overflow: auto;
 }
 
 .ui-autocomplete li {
@@ -422,13 +433,13 @@ overflow: auto;
 
 #button_search 
 {
-	background-image: url("../../images/search.png");
+	background-image: url("../images/search.png");
 	margin-right: 5px;
 }
 
 #button_suggest
 {
-	background-image: url("../../images/suggest.png");
+	background-image: url("../images/suggest.png");
 }
 
 /* entire container, keeps perspective */
@@ -519,3 +530,9 @@ color: #fff;
 display: none;
 width: 250px;
 }
+
+
+
+
+
+

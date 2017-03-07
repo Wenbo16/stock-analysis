@@ -1,0 +1,29 @@
+html
+	head
+		title= title[language]
+		link(rel="stylesheet", href="/css/register.css")
+	body
+		form(action="/sign_up" method="post" style="border:1px solid #ccc")
+			div(class="container")
+				h2 Signup
+				label
+					b UserID
+				input(type="text" placeholder="Enter User ID" name="userid" required)
+				label
+					b Email
+				input(type="text" placeholder="Enter Email" name="email" required)
+				label
+					b Password
+				input(type="password" placeholder="Enter Password" name="password" required)
+
+				label
+					b Repeat Password
+				input(type="password" placeholder="Repeat Password" name="psw-repeat" required)
+				input(type="checkbox" checked="checked") 
+				| By creating an account you agree to our 
+				a(href="#") Terms & Privacy
+
+				div(class="clearfix")
+					button(type="button" class="cancelbtn") Cancel
+					button(type="submit" class="signupbtn") Sign Up
+

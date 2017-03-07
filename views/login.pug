@@ -1,0 +1,23 @@
+html
+	head
+		title= title[language]
+		link(rel="stylesheet", href="/css/login.css")
+	body
+		form(method="post" action="/login")
+			h2 Login Form
+			div(class="container")
+			label
+				b Username
+			input(type="text" placeholder="Enter Username" name="username" required)
+
+			label
+				b Password
+			input(type="password" placeholder="Enter Password" name="password" required)
+
+			button(type="submit") Login
+			input(type="checkbox" checked="checked") 
+			|Remember me
+			div(class="container" style="background-color:#f1f1f1")
+			button(type="button" class="cancelbtn") Cancel
+			span(class="psw") Forgot 
+				a(href="#") password?

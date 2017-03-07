@@ -1,5 +1,5 @@
 body {
-	background: url("../../images/background.jpg");
+	background: url("/images/background.jpg");
 	background-repeat:no-repeat;
     background-size: 100% 100%;
     font: Lucida Sans, Verdana;
@@ -14,6 +14,51 @@ body {
 .container {
     xmin-width: 900px;
 	margin: 0 auto;
+}
+
+.banner
+{
+	float:left;
+	margin-right: 15px;
+	position: absolute;
+	top: 0;
+	width: 145px;
+	height: 210px;
+	overflow: hidden;
+}
+
+
+#image .text
+{
+width: 300px;
+height: 140px;
+position: absolute;
+left: 160px;
+top: 25px;
+color: white;
+padding: 10px 20px;
+border-left: 1px solid #fff;
+font-family: 'Roboto', arial, sans-serif;
+font-size: 11pt;
+}
+
+
+#image_search{
+	left: 0;
+	background: url("/images/image_search.png") 20px 20px no-repeat transparent;
+}
+
+#image_suggest{
+	left: 210px;
+	background: url("/images/image_suggest.png") 20px 20px no-repeat transparent;
+}
+
+
+
+#image_track
+{
+	left: 430px;
+	background: url("/images/image_track.png") 20px 20px no-repeat transparent;
 }
 
 #bars_container{
@@ -80,13 +125,13 @@ input {
 
 #button_search 
 {
-	background-image: url("../../images/search.png");
+	background-image: url("/images/search.png");
 	margin-right: 5px;
 }
 
 #button_suggest
 {
-	background-image: url("../../images/suggest.png");
+	background-image: url("/images/suggest.png");
 }
 
 
@@ -99,33 +144,17 @@ input {
 #top, #sidebar, #bottom, .menuitem {
     border-radius: 4px;
     margin: 4px;
-}
-
-#top {
-    color: #ffffff;
+	color: #ffffff;
     padding: 15px;
 }
 
-#menubar {
-    width: 200px;
-    float: left
-}
+
 
 #main {
     padding: 10px;
     margin: 0 210px;
 }
 
-#sidebar {
-    background-color: #32a4e7;
-    color: #ffffff;
-    padding: 10px;
-    width: 180px;
-    bottom: 0;
-    top: 0;
-    right: 0;
-    position: absolute;
-}
 
 #bottom {
     border: 1px solid #d4d4d4;
@@ -141,51 +170,5 @@ input {
     padding: 0;
 }
 
-.menuitem {
-    background-color: #f1f1f1;
-    border: 1px solid #d4d4d4;
-    list-style-type: none;
-    padding: 2px;
-    cursor: pointer;
-}
-
-.menuitem:hover {
-    background-color: #ffffff;
-}
-
-.menuitem:first-child {
-   background-color:#4CAF50;
-   color: white;
-   font-weight:bold;
-}
-
-a {
-    color: #000000;
-    text-decoration: underline;
-}
-
-a:hover {
-    text-decoration: none;
-}
 
 
-@media (max-width: 800px) {
-    #sidebar {
-        width: auto;
-        position: relative;
-    } 
-    #main {
-        margin-right: 0;
-    }    
-       
-}
-
-@media (max-width: 600px) {
-    #menubar {
-        width: auto;
-        float: none;
-    }
-    #main {
-        margin: 0;
-    }    
-}

@@ -6,25 +6,25 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-	
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Wenbo16/stock-prediction.git"
   },
-	
   "author": "Wenbo Feng",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Wenbo16/stock-prediction/issues"
   },
-	
   "homepage": "https://github.com/Wenbo16/stock-prediction#readme",
   "dependencies": {
     "colors": "^1.1.2",
+    "connect-session-knex": "^1.3.4",
     "express": "^4.14.0",
+    "express-session": "^1.15.1",
     "knex": "^0.12.6",
     "mysql2": "^1.1.1",
     "pug": "^2.0.0-beta5",
+    "scrypt-for-humans": "^2.0.5",
     "yahoo-finance": "^0.2.14"
   }
 }
