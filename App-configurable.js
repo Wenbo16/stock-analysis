@@ -21,7 +21,10 @@ var config = require("./config.json");
 var knex = require("knex")(require("./knexfile"));
 
 // hash the user's password 
-var scrypt = require("scrypt-for-humans");
+var scryptForHumans = require("scrypt-for-humans");
+
+
+var expressPromiseRouter = require("express-promise-router");
 
 // set up our express application
 app.use(express.static('static'));
@@ -39,67 +42,42 @@ app.use(function(req, res, next ){
 
 // Use the session middleware 
 app.use(session({
-	resave: false, // don't save session if unmodified
-	saveUninitialized: false, // don't create session until something stored
-	secret: 'shhhh, very secret',
-	cookie: {maxAge: 60},//
+    secret: "secret",
+    resave: false,  // don't save session if unmodified
+    saveUninitialized: false,  // don't create session until something stored
+    store: new KnexSessionStore({
+        knex: knex
+    })
 }));
 
 
 
-// when you create a user, generate a salt
-// and hash the password ('foobar' is the pass here)
 
-
-
-
-// Authenticate using our plain-object database of doom!
-var theHash;
-function authenticate(name, password, fn) {
-	if (!module.parent) console.log('authenticating %s:%s', name, password); 
-	
-	// query the db for the given username
-	var user;
-	return Promise.try(() => {
-		return knex('users').where('userid', name).select('*');
-	}).then(function(User){
-		console.log(User[0]);
-		user = User[0];
-	});
-	
-
-	if (!user) return fn(new Error('cannot find user'));
-	// if there is a match of the password we found the user
-	
-	Promise.try(function(){
-		return scrypt.hash(password);
-	}).then(function(hash){
-		console.log(user);
-		return scrypt.verifyHash(password, user.password);	
-	}).then(function(){
-		return fn(null, user);
-	}).catch(scrypt.PasswordError, function(err){
-		fn(new Error('invalid password'));
-	});
-}
-
-
-//To limit access to certain pages add a simple middleware to those routes
-function restrict(req, res, next) {
-	if (req.session.user) {
-		next();
-	} else {
-		req.session.error = 'Access denied!';
-		res.redirect('/login');
-	}
-}
-
-
-app.get('/', function(req, res, next) {
-	res.render('home_page', { title: {english: 'Stock Prediction', chinese: '股票预测'},
-									 stocks:config.stocks}); 
+app.get("/", (req, res) => {
+    return Promise.try(() => {
+        if (req.session.userId == null) {
+			console.log("not logged in");
+			res.render('home_page', { title: {english: 'Stock Prediction', chinese: '股票预测'}, stocks:config.stocks, user:null});
+        } else {
+            return Promise.try(() => {
+                return knex("users").where({
+                    userid: req.session.userId
+                });
+				
+            }).then((users) => {
+                if (users.length === 0) {
+					console.log("User no longer exists");
+                    /* User no longer exists */
+                    req.session.destroy();
+					res.render('home_page', { title: {english: 'Stock Prediction', chinese: '股票预测'}, stocks:config.stocks, user:null}); 
+                } else {
+					console.log("logged in");
+					res.render('home_page', { title: {english: 'Stock Prediction', chinese: '股票预测'}, stocks:config.stocks, user:users[0]}); 
+                }
+            });
+        }
+    });
 });
-
 
 
 app.get('/logout', function(req, res){
@@ -117,29 +95,33 @@ app.get('/login', function (req, res) {
 });
 
 
+
+// set properties on req.session, and you can then access those properties from other requests within 
+// the same sessioN
 app.post('/login', function(req, res){
-	authenticate(req.body.username, req.body.password, function(err, user){
-		if (user) {
-			// Regenerate session when signing in to prevent fixation
-			req.session.regenerate(function(){
-				// Store the user's primary key in the session store to be retrieved,
-				// or in this case the entire user object
-				req.session.user = user;
-				req.session.success = 'Authenticated as ' + user.name
-					+ ' click to <a href="/logout">logout</a>. '
-					+ ' You may now access <a href="/restricted">/restricted</a>.';
-				res.redirect('back');
-			});
-			console.log("success");
+	return Promise.try(() => {
+		return knex('users').where({userid : req.body.username});
+	}).then(function(users){
+		if (users.length === 0) {
+			console.log("No such username exists");
+			throw new AuthenticationError("No such username exists");
 		} else {
-			req.session.error = 'Authentication failed, please check your '
-				+ ' username and password.'
-				+ ' (use "tj" and "foobar")';
-			res.redirect('/');
+            let user = users[0];
+			return Promise.try(() => {
+				return scryptForHumans.verifyHash(req.body.password, user.password);	
+			}).then(function(){
+				/* Password was correct */
+				console.log("Password was correct");
+                req.session.userId = user.userid;
+                res.redirect("/");
+			}).catch(scryptForHumans.PasswordError, (err) => {
+                throw new AuthenticationError("Invalid password");
+            });
 		}
 	});
 });
 
+	
 
 
 
@@ -167,8 +149,6 @@ app.post('/sign_up', function(req, res) {
 		return knex('users').insert({email: req.body.email, password:hash, userid:req.body.userid});
 	}).then(function(){
 		res.redirect('/');
-	}).catch((err) => { 
-		console.error("ERROR", err); 
 	});
 });
 
@@ -176,26 +156,26 @@ app.post('/sign_up', function(req, res) {
 
 
 // Get the data and statistics of a single stock
-app.get('/:symbol', function (req, res) {
-	return Promise.try( function() {
-		return yahooFinance.historical({
-			symbol: req.params.symbol,
-			from: '2012-01-01',
-			to: '2012-01-15',
-			period: 'd' 
-		});            
-	}).then(function(quotes){
-		res.render( 'home_page', { title: {english: 'Stock Prediction', chinese: '股票预测'},
-								 stocks:config.stocks, data:quotes, symbol:req.params.symbol}); 
-	});
-});
+//app.get('/:symbol', function (req, res) {
+//	return Promise.try( function() {
+//		return yahooFinance.historical({
+//			symbol: req.params.symbol,
+//			from: '2012-01-01',
+//			to: '2012-01-15',
+//			period: 'd' 
+//		});            
+//	}).then(function(quotes){
+//		res.render( 'home_page', { title: {english: 'Stock Prediction', chinese: '股票预测'},
+//								 stocks:config.stocks, data:quotes, symbol:req.params.symbol}); 
+//	});
+//});
 
 
 
 // Get the list of all the stocks
 app.get('/stock_list', function(req, res) {
 	return Promise.try(() => {
-		return knex.select().from('symbols')
+		return knex.select().from('symbols');
 	}).then(function(entries){
 		res.render('stocks_page', {title : {english: 'Stocks Lists', chinese: '股票列表'}, stocks : entries});
 	});
@@ -275,3 +255,4 @@ app.listen(3000, function () {
 	console.log('Example app listening on port 3000!');
 });
 
+module.exports = router;

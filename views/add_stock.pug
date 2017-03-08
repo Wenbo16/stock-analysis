@@ -1,8 +1,9 @@
-html
-	head
-		title= title[language] 
-		link(rel="stylesheet", href="/css/style.css")
-		script(src="/js/PublicJS.js")
+extends layout
+block stylesheet
+	link(rel="stylesheet", href="/css/style.css")
+	script(src="/js/PublicJS.js")
+	
+block page
 	body
 		div(id="wrapper")
 			div(class="page-header")

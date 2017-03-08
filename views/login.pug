@@ -1,7 +1,8 @@
-html
-	head
-		title= title[language]
-		link(rel="stylesheet", href="/css/login.css")
+extends layout
+block stylesheet
+	link(rel="stylesheet", href="/css/login.css")
+
+block page
 	body
 		form(method="post" action="/login")
 			h2 Login Form

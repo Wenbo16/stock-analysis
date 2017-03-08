@@ -1,8 +1,9 @@
-html
-	head
-		title= title[language]
-		link(rel="stylesheet", href="/css/style.css")
-		script(src="/js/PublicJS.js")
+extends layout
+block stylesheet
+	link(rel="stylesheet", href="/css/style.css")
+	script(src="/js/PublicJS.js")
+	
+block page
 	body
 		div(id="wrapper")
 			div(class="page-header")
@@ -29,4 +30,3 @@ html
 										input(class="edit" type="submit" name="submit" value="Edit")
 									form(method="post" action='/stock_list/delete/' + stock.symbol)
 										input(class="delete" type="submit" name="submit" value="Delete")
-									
