@@ -33,12 +33,6 @@ app.set('views', './views');
 app.set('view engine', 'pug');  // set up ejs for templating
 app.use(bodyParser.urlencoded());
 
-app.use(function(req, res, next ){
-	res.locals.username = "wenbo"
-	console.log('logger');
-	next();
-});
-
 
 // Use the session middleware 
 app.use(session({
@@ -51,33 +45,49 @@ app.use(session({
 }));
 
 
+app.use(function(req, res, next ){
+	console.log('logger');
+	next();
+});
+
+
+app.use(function(req, res, next ){
+	return Promise.try(() => {
+		if (req.session.userid == null) {
+			req.user = null;
+			res.locals.user = req.user;
+			console.log("not logged in");
+			next();
+		} else {
+			return Promise.try(() => {
+				return knex("users").where({
+					userid: req.session.userid
+				});
+			}).then((users) => {
+				if (users.length === 0) {
+					req.user = null;
+					console.log("User no longer exists");
+					/* User no longer exists */
+					req.session.destroy();
+				} else {
+					req.user = users[0];
+					console.log("logged in");
+				}
+				res.locals.user = req.user;
+				next();
+			});
+		}
+		
+    });
+	
+});
 
 
 app.get("/", (req, res) => {
-    return Promise.try(() => {
-        if (req.session.userId == null) {
-			console.log("not logged in");
-			res.render('home_page', { title: {english: 'Stock Prediction', chinese: '股票预测'}, stocks:config.stocks, user:null});
-        } else {
-            return Promise.try(() => {
-                return knex("users").where({
-                    userid: req.session.userId
-                });
-				
-            }).then((users) => {
-                if (users.length === 0) {
-					console.log("User no longer exists");
-                    /* User no longer exists */
-                    req.session.destroy();
-					res.render('home_page', { title: {english: 'Stock Prediction', chinese: '股票预测'}, stocks:config.stocks, user:null}); 
-                } else {
-					console.log("logged in");
-					res.render('home_page', { title: {english: 'Stock Prediction', chinese: '股票预测'}, stocks:config.stocks, user:users[0]}); 
-                }
-            });
-        }
-    });
+	res.render('home_page', {title: {english: 'Stock Prediction', chinese: '股票预测'}, stocks:config.stocks}); 
 });
+
+
 
 
 app.get('/logout', function(req, res){
@@ -106,17 +116,17 @@ app.post('/login', function(req, res){
 			console.log("No such username exists");
 			throw new AuthenticationError("No such username exists");
 		} else {
-            let user = users[0];
+			let user = users[0];
 			return Promise.try(() => {
 				return scryptForHumans.verifyHash(req.body.password, user.password);	
 			}).then(function(){
 				/* Password was correct */
 				console.log("Password was correct");
-                req.session.userId = user.userid;
-                res.redirect("/");
+				req.session.userId = user.userid;
+				res.redirect("/");
 			}).catch(scryptForHumans.PasswordError, (err) => {
-                throw new AuthenticationError("Invalid password");
-            });
+				throw new AuthenticationError("Invalid password");
+			});
 		}
 	});
 });
